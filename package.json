@@ -1,0 +1,17 @@
+{
+  "name": "vote-app",
+  "version": "1.0.0",
+  "description": "a decentralized voting application",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.3.4"
+  }
+}
