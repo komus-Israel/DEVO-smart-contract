@@ -1,3 +1,5 @@
+const { EVM_REVERT } = require('./helper')
+
 const Vote = artifacts.require('./Vote');
 require('chai')
     .use(require('chai-as-promised'))
@@ -21,34 +23,50 @@ contract('Vote', ([user1, user2, user3])=>{
         const middlename = 'Tope';
         const state = 'Oyo';
         const nin = '1245454';
-        const address = 'user1';
         
+
+        let register;
+
+        beforeEach(async ()=>{
+            register = await vote.registerVoter(
+                firstName,
+                lastName,
+                middlename,
+                state,
+                nin,
+    
+                { from: user1 }
+            )
+        })
+
 
         it("was successful", async()=>{
 
-            // register user1
-
-           
-            
-                const register = await vote.registerVoter(
-                    firstName,
-                    lastName,
-                    middlename,
-                    state,
-                    nin,
-    
-                    { from: user1 }
-                )
-
+            // register user1 successfully
+                
             //  test the name of the event for this function call
             register.logs[0].event.should.be.equal('Registered')
             
 
             //  test that the address in the event is the address we registered
             register.logs[0].args._address.should.be.equal(user1)
+
         })
 
         it("failed", async()=>{
+
+            //  should fail if we try to register the same user
+
+            register = await vote.registerVoter(
+                firstName,
+                lastName,
+                middlename,
+                state,
+                nin,
+    
+                { from: user1 }
+            ).should.be.rejectedWith(EVM_REVERT)
+
 
         })
 
