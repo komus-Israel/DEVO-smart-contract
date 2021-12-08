@@ -47,7 +47,7 @@ contract Vote {
 
 
 
-    function registerVoter(string memory _firstname, string memory _lastname, string memory _middlename, string memory _stateOfOrigin, string memory _nin) public {
+    function registerVoter(string memory _firstname, string memory _lastname, string memory _middlename, string memory _stateOfOrigin, string memory _nin) public returns(bool success) {
 
         //  check if the address has been registered
         require(!registered[msg.sender]);
@@ -61,10 +61,12 @@ contract Vote {
 
         //  emit registration event
         emit Registered( _firstname, _lastname , msg.sender, block.timestamp);
+
+        return true;
   
     }
 
-    function voteCandidate(string memory _candidate) public {
+    function voteCandidate(string memory _candidate) public returns(bool success) {
 
         //  validate that this address is eligible for voting through registration
         require(electorates[msg.sender].registrantAddress == msg.sender);
@@ -78,6 +80,8 @@ contract Vote {
 
         //  emit event
         emit VoteCandidate(_candidate, block.timestamp);
+
+        return true;
     }
 
     function result(string memory _candidate) public view returns (uint256) {

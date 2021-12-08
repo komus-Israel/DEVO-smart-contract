@@ -9,35 +9,40 @@ require('chai')
 contract('Vote', ([user1, user2, user3])=>{
 
     let vote
+    let register;
+    let firstName;
+    let lastName;
+    let middlename;
+    let state;
+    let nin;
+    let candidateAPC = "Buhari";
+    let candidatePDP = "Jonathan";
+
    
     beforeEach(async ()=>{
         vote = await Vote.new()
-    })
-
-    describe("registration of electorates", ()=>{
 
         //  initialize the details of the electorate to be registered
 
-        const firstName = 'Israel';
-        const lastName = 'Timilehin';
-        const middlename = 'Tope';
-        const state = 'Oyo';
-        const nin = '1245454';
+        firstName = 'Israel';
+        lastName = 'Timilehin';
+        middlename = 'Tope';
+        state = 'Oyo';
+        nin = '1245454';
+
         
+        register = await vote.registerVoter(
+            firstName,
+            lastName,
+            middlename,
+            state,
+            nin,
 
-        let register;
+            { from: user1 }
+        )
+    })
 
-        beforeEach(async ()=>{
-            register = await vote.registerVoter(
-                firstName,
-                lastName,
-                middlename,
-                state,
-                nin,
-    
-                { from: user1 }
-            )
-        })
+    describe("registration of electorates", ()=>{
 
         describe("success", ()=>{
 
@@ -72,7 +77,7 @@ contract('Vote', ([user1, user2, user3])=>{
 
         describe("failed", ()=>{
 
-            it("does not registered an electorate twice", async()=>{
+            it("does not register an electorate twice", async()=>{
 
                 //  should fail if we try to register the same user
     
@@ -90,6 +95,46 @@ contract('Vote', ([user1, user2, user3])=>{
             })
         })
 
+
+    })
+
+    describe("electorate's vote", ()=>{
+
+        let electorateVote;
+        beforeEach(async()=>{
+
+            electorateVote = await vote.voteCandidate(candidateAPC, { from: user1 })
+        })
+
+        
+
+        describe("validate the vote status of an address", ()=>{
+
+            it("has voted", async()=>{
+                const hasVoted = await vote.validateVote(user1)
+                hasVoted.should.be.equal(true)
+            })
+
+            it("has not voted", async()=>{
+                const hasVoted = await vote.validateVote(user2)
+                hasVoted.should.be.equal(false)
+            })
+
+        })
+
+        describe("failed vote", ()=>{
+            it("rejects vote of unregistered electorates", async()=>{
+
+                //  user2 has not registered so his vote was rejected
+                await vote.voteCandidate(candidateAPC, { from: user2 }).should.be.rejectedWith(EVM_REVERT)
+            })
+
+            it("rejects vote of an electorate who attempts to vote again", async()=>{
+
+                //  user1 has registered and voted, but he attempted to vote again, so his vote was rejected
+                await vote.voteCandidate(candidateAPC, { from: user1 }).should.be.rejectedWith(EVM_REVERT)
+            })
+        })
 
     })
 
