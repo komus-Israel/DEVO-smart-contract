@@ -28,8 +28,8 @@ contract('Vote', ([user1, user2, user3])=>{
 
             // register user1
 
-            let register
-            beforeEach(async()=>{
+           
+            
                 const register = await vote.registerVoter(
                     firstName,
                     lastName,
@@ -39,13 +39,13 @@ contract('Vote', ([user1, user2, user3])=>{
     
                     { from: user1 }
                 )
-            })
-           
-
-            console.log(register)
 
             //  test the name of the event for this function call
-            register.event.should.be.equal('Registered')
+            register.logs[0].event.should.be.equal('Registered')
+            
+
+            //  test that the address in the event is the address we registered
+            register.logs[0].args._address.should.be.equal(user1)
         })
 
         it("failed", async()=>{
