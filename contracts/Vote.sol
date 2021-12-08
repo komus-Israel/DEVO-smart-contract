@@ -52,7 +52,7 @@ contract Vote {
         //  check if the address has been registered
         require(!registered[msg.sender]);
 
-        //  if not registered, add them to the registered users
+        //  if not registered, append the address to the array of registered users
         registered[msg.sender] = true;
         registeredAddresses.push(msg.sender);  
 
