@@ -6,7 +6,7 @@ require('chai')
     .should()
 
 
-contract('Vote', ([user1, user2, user3, user4, user5])=>{
+contract('Vote', ([user1, user2, user3, user4, user5, user6, user7])=>{
 
     let vote
     let register;
@@ -30,6 +30,8 @@ contract('Vote', ([user1, user2, user3, user4, user5])=>{
         state = 'Oyo';
         nin = '1245454';
 
+        //  register user1 - user7 except user2 for testing purposes
+
         
         register = await vote.registerVoter(
             firstName,
@@ -39,6 +41,57 @@ contract('Vote', ([user1, user2, user3, user4, user5])=>{
             nin,
 
             { from: user1 }
+        )
+
+
+        await vote.registerVoter(
+            firstName,
+            lastName,
+            middlename,
+            state,
+            nin,
+
+            { from: user3 }
+        )
+
+        await vote.registerVoter(
+            firstName,
+            lastName,
+            middlename,
+            state,
+            nin,
+
+            { from: user4 }
+        )
+
+        await vote.registerVoter(
+            firstName,
+            lastName,
+            middlename,
+            state,
+            nin,
+
+            { from: user5 }
+        )
+
+        await vote.registerVoter(
+            firstName,
+            lastName,
+            middlename,
+            state,
+            nin,
+
+            { from: user6 }
+        )
+
+        await vote.registerVoter(
+            firstName,
+            lastName,
+            middlename,
+            state,
+            nin,
+
+            { from: user7 }
         )
     })
 
@@ -100,10 +153,36 @@ contract('Vote', ([user1, user2, user3, user4, user5])=>{
 
     describe("electorate's vote", ()=>{
 
-        let electorateVote;
+        let electorateVote1
+        let electorateVote3
+        let electorateVote4
+        let electorateVote5
+        let electorateVote6
+        
         beforeEach(async()=>{
 
-            electorateVote = await vote.voteCandidate(candidateAPC, { from: user1 })
+            electorateVote1 = await vote.voteCandidate(candidateAPC, { from: user1 })
+            electorateVote3 = await vote.voteCandidate(candidateAPC, { from: user3 })
+            electorateVote4 = await vote.voteCandidate(candidatePDP, { from: user4 })
+            electorateVote5 = await vote.voteCandidate(candidatePDP, { from: user5 })
+            electorateVote6 = await vote.voteCandidate(candidatePDP, { from: user6 })
+        })
+
+        describe("vote event", ()=>{
+            it("emits event for electorate1 who voted APC", async()=>{
+
+                //  event must validate that electorate1 voted for APC
+                electorateVote1.logs[0].event.should.be.equal('VoteCandidate')
+                electorateVote1.logs[0].args._candidate.should.be.equal(candidateAPC)
+            })
+
+            it("emit event for electorate4 who voted PDP", async()=>{
+
+                 //  event must validate that electorate4 voted for PDP
+                electorateVote4.logs[0].event.should.be.equal('VoteCandidate')
+                electorateVote4.logs[0].args._candidate.should.be.equal(candidatePDP)
+
+            })
         })
 
         
@@ -129,7 +208,7 @@ contract('Vote', ([user1, user2, user3, user4, user5])=>{
                 await vote.voteCandidate(candidateAPC, { from: user2 }).should.be.rejectedWith(EVM_REVERT)
             })
 
-            it("rejects vote of an electorate who attempts to vote again", async()=>{
+            it("rejects vote of an electorate who attempted to vote again", async()=>{
 
                 //  user1 has registered and voted, but he attempted to vote again, so his vote was rejected
                 await vote.voteCandidate(candidateAPC, { from: user1 }).should.be.rejectedWith(EVM_REVERT)
@@ -146,28 +225,28 @@ contract('Vote', ([user1, user2, user3, user4, user5])=>{
                 pdpCandidate = await vote.candidates(candidatePDP)
             })
 
-            it("returns result of first candidate", async()=>{
+            it("returns result of APC candidate", async()=>{
                 
-                console.log(apcCandidate.toString())
+              apcCandidate.toString().should.be.equal('2')
                 
             })
 
-            it("returns result of the second candidate", async()=>{
-                console.log(pdpCandidate.toString())
+            it("returns result of the PDP candidate", async()=>{
+                pdpCandidate.toString().should.be.equal('3')
                 
             })
 
             it("returns total votes", async()=>{
 
                 const totalVotes = Number(apcCandidate.toString()) + Number(pdpCandidate.toString())
-                console.log(totalVotes)
+                totalVotes.should.be.equal(5)
 
             })
 
             it("returns the total number of registered voters", async()=>{
                 const allregisteredElectorates = await vote.noOfRegisteredVoters()
 
-                console.log(allregisteredElectorates)
+                allregisteredElectorates.toString().should.be.equal('6')
             })
 
         })
