@@ -6,7 +6,7 @@ require('chai')
     .should()
 
 
-contract('Vote', ([user1, user2, user3])=>{
+contract('Vote', ([user1, user2, user3, user4, user5])=>{
 
     let vote
     let register;
@@ -134,6 +134,42 @@ contract('Vote', ([user1, user2, user3])=>{
                 //  user1 has registered and voted, but he attempted to vote again, so his vote was rejected
                 await vote.voteCandidate(candidateAPC, { from: user1 }).should.be.rejectedWith(EVM_REVERT)
             })
+        })
+
+        describe("vote results and stats", ()=>{
+
+            let apcCandidate;
+            let pdpCandidate;
+
+            beforeEach(async()=>{
+                apcCandidate = await vote.candidates(candidateAPC)
+                pdpCandidate = await vote.candidates(candidatePDP)
+            })
+
+            it("returns result of first candidate", async()=>{
+                
+                console.log(apcCandidate.toString())
+                
+            })
+
+            it("returns result of the second candidate", async()=>{
+                console.log(pdpCandidate.toString())
+                
+            })
+
+            it("returns total votes", async()=>{
+
+                const totalVotes = Number(apcCandidate.toString()) + Number(pdpCandidate.toString())
+                console.log(totalVotes)
+
+            })
+
+            it("returns the total number of registered voters", async()=>{
+                const allregisteredElectorates = await vote.noOfRegisteredVoters()
+
+                console.log(allregisteredElectorates)
+            })
+
         })
 
     })

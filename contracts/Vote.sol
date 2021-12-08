@@ -84,10 +84,6 @@ contract Vote {
         return true;
     }
 
-    function result(string memory _candidate) public view returns (uint256) {
-        return candidates[_candidate];
-    }
-
     function noOfRegisteredVoters() public view returns (uint256) {
         return registeredAddresses.length;
     }
