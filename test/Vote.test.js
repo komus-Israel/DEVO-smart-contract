@@ -6,7 +6,7 @@ require('chai')
     .should()
 
 
-contract('Vote', ([user1, user2, user3, user4, user5, user6, user7])=>{
+contract('Vote', ([user1, user2, user3, user4, user5, user6, user7, candidate1, candidate2])=>{
 
     let vote
     let register;
@@ -15,8 +15,8 @@ contract('Vote', ([user1, user2, user3, user4, user5, user6, user7])=>{
     let middlename;
     let state;
     let nin;
-    let candidateAPC = "Buhari";
-    let candidatePDP = "Jonathan";
+    let candidateAPC = candidate1;
+    let candidatePDP = candidate2;
 
    
     beforeEach(async ()=>{

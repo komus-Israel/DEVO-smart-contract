@@ -7,8 +7,18 @@ pragma solidity 0.8.10;
 
 contract Vote {
 
+    //  address of the owner / admin/ deployer
+
+    address owner;
+
+   
+
     //  a map to store the number of votes submitted to each candidates
-    mapping(string => uint256) public candidates;
+    mapping(address => uint256) public candidates;
+
+
+    //  map to register candidates
+    mapping(address => bool) public registeredCandidates;
 
     //  a struct to save the voter's details on registration
     struct Registration {
@@ -42,7 +52,18 @@ contract Vote {
     //  2. Vote event
 
     event Registered(string _firstname, string _lastName, address _address, uint256 _timestamp);
-    event VoteCandidate(string _candidate, uint256 _timestamp);
+    event VoteCandidate(address _candidate, uint256 _timestamp);
+
+
+     constructor () {
+
+        owner = msg.sender;
+    }
+
+    function owners() public returns (bool success) {
+        require(msg.sender==owner);
+        return true;
+    }
 
 
 
@@ -66,7 +87,7 @@ contract Vote {
   
     }
 
-    function voteCandidate(string memory _candidate) public returns(bool success) {
+    function voteCandidate(address _candidate) public returns(bool success) {
 
         //  validate that this address is eligible for voting through registration
         require(electorates[msg.sender].registrantAddress == msg.sender);
