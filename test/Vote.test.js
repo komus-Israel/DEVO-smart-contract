@@ -6,7 +6,7 @@ require('chai')
     .should()
 
 
-contract('Vote', ([user1, user2, user3, user4, user5, user6, user7, candidate1, candidate2])=>{
+contract('Vote', ([user1, user2, user3, user4, user5, user6, user7, candidate1, candidate2, candidate3])=>{
 
     let vote
     let register;
@@ -17,6 +17,7 @@ contract('Vote', ([user1, user2, user3, user4, user5, user6, user7, candidate1, 
     let nin;
     let candidateAPC = candidate1;
     let candidatePDP = candidate2;
+    
 
    
     beforeEach(async ()=>{
@@ -227,6 +228,11 @@ contract('Vote', ([user1, user2, user3, user4, user5, user6, user7, candidate1, 
 
                 //  user1 has registered and voted, but he attempted to vote again, so his vote was rejected
                 await vote.voteCandidate(candidateAPC, { from: user1 }).should.be.rejectedWith(EVM_REVERT)
+            })
+
+
+            it("rejects vote for non registered candidates", async()=>{
+                await vote.voteCandidate(candidate3, {from: user7}).should.be.rejectedWith(EVM_REVERT)
             })
         })
 
