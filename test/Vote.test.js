@@ -151,6 +151,13 @@ contract('Vote', ([user1, user2, user3, user4, user5, user6, user7, candidate1, 
 
     })
 
+    describe("register candidate", ()=>{
+
+        it("registers a candidate successfully", async()=>{
+            await vote.registerCandidates(candidateAPC, {from: user1})
+        })
+    })
+
     /*describe("electorate's vote", ()=>{
 
         let electorateVote1
