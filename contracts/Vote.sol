@@ -18,7 +18,7 @@ contract Vote {
 
 
     //  map to register candidates
-    mapping(address => bool) public owners registeredCandidates;
+    mapping(address => bool) registeredCandidates;
 
     //  a struct to save the voter's details on registration
     struct Registration {
@@ -63,7 +63,7 @@ contract Vote {
     // declare a modifier that makes some functions to be exclusive to just the owner of the contract
 
     modifier onlyOwner {
-        require(owner === msg.sender);
+        require(owner == msg.sender);
         _;
     }
 
@@ -114,6 +114,13 @@ contract Vote {
 
     function noOfRegisteredVoters() public view returns (uint256) {
         return registeredAddresses.length;
+    }
+
+    function registerCandidates(address _candidate) public onlyOwner {
+
+        require(_candidate != address(0));
+        registeredCandidates[_candidate];
+        
     }
 
  
