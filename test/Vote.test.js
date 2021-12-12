@@ -161,6 +161,10 @@ contract('Vote', ([user1, user2, user3, user4, user5, user6, user7, candidate1, 
         it("fails to register a candidate", async()=>{
             await vote.registerCandidates(candidateAPC, {from: user2}).should.be.rejectedWith(EVM_REVERT)
         })
+
+        it("fails to register a candidate more than once", async()=>{
+            await vote.registerCandidates(candidateAPC, {from: user1})
+        })
     })
 
     describe("electorate's vote", ()=>{

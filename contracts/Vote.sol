@@ -5,6 +5,7 @@ pragma solidity 0.8.10;
 //  [x]  ensure that they can't vote more than once
 //  [x]  ensure that the votes of the apirants are well appended
 
+
 contract Vote {
 
     //  address of the owner / admin/ deployer
@@ -122,6 +123,7 @@ contract Vote {
         // candidates can only be registered via the contract owner
 
         require(_candidate != address(0));
+        require(!registeredCandidates[_candidate]);
         registeredCandidates[_candidate] = true;
         
     }
