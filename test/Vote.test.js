@@ -156,9 +156,13 @@ contract('Vote', ([user1, user2, user3, user4, user5, user6, user7, candidate1, 
         it("registers a candidate successfully", async()=>{
             await vote.registerCandidates(candidateAPC, {from: user1})
         })
+
+        it("fails to register a candidate", async()=>{
+            await vote.registerCandidates(candidateAPC, {from: user2}).should.be.rejectedWith(EVM_REVERT)
+        })
     })
 
-    /*describe("electorate's vote", ()=>{
+    describe("electorate's vote", ()=>{
 
         let electorateVote1
         let electorateVote3
@@ -167,6 +171,10 @@ contract('Vote', ([user1, user2, user3, user4, user5, user6, user7, candidate1, 
         let electorateVote6
         
         beforeEach(async()=>{
+
+            //register the party
+            await vote.registerCandidates(candidateAPC, {from: user1})
+            await vote.registerCandidates(candidatePDP, {from: user1})
 
             electorateVote1 = await vote.voteCandidate(candidateAPC, { from: user1 })
             electorateVote3 = await vote.voteCandidate(candidateAPC, { from: user3 })
@@ -258,6 +266,6 @@ contract('Vote', ([user1, user2, user3, user4, user5, user6, user7, candidate1, 
 
         })
 
-    })*/
+    })
 
 })

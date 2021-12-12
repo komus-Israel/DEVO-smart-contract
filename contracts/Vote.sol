@@ -116,10 +116,13 @@ contract Vote {
         return registeredAddresses.length;
     }
 
+
     function registerCandidates(address _candidate) public onlyOwner {
 
+        // candidates can only be registered via the contract owner
+
         require(_candidate != address(0));
-        registeredCandidates[_candidate];
+        registeredCandidates[_candidate] = true;
         
     }
 
