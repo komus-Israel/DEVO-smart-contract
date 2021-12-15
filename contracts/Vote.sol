@@ -10,7 +10,7 @@ contract Vote {
 
     //  address of the owner / admin/ deployer
 
-    address owner;
+    address public owner;
 
    
 
