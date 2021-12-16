@@ -16,11 +16,24 @@ contract Vote {
     mapping(address => uint256) public candidates;
 
 
-    //  map to register candidates
+    //  map to store candidates' registration state as true or false
     mapping(address => bool) registeredCandidates;
 
+    //   a struct to save the candidates registration data
+    struct CandidateRegistration {
+        string name;
+        string ipfsHash;
+    }
+
+    //  that saves the candidate data to their address
+    mapping(address => CandidateRegistration) registeredCandidatesData;
+
+
+
+
+
     //  a struct to save the voter's details on registration
-    struct Registration {
+    struct ElectorateRegistration {
 
         string FirstName;
         string LastName;
@@ -36,7 +49,7 @@ contract Vote {
     address[] public registeredAddresses; 
 
     //  mapping the registered user's details to their address
-    mapping(address => Registration) public electorates;
+    mapping(address => ElectorateRegistration) public electorates;
 
 
     //  mapping marks addresses as registered
@@ -79,7 +92,7 @@ contract Vote {
         registeredAddresses.push(msg.sender);  
 
         //  saving their registration details
-        electorates[msg.sender] = Registration(_firstname, _lastname, _middlename, _stateOfOrigin, _nin, msg.sender, block.timestamp);
+        electorates[msg.sender] = ElectorateRegistration(_firstname, _lastname, _middlename, _stateOfOrigin, _nin, msg.sender, block.timestamp);
 
         //  emit registration event
         emit Registered( _firstname, _lastname , msg.sender, block.timestamp);
@@ -116,19 +129,19 @@ contract Vote {
     }
 
 
-    function registerCandidates(address _candidate) public onlyOwner {
+    function registerCandidates(address _candidate, string memory _name , string memory _ipfsHash ) public onlyOwner {
 
         // candidates can only be registered via the contract owner
 
         require(_candidate != address(0));
         require(!registeredCandidates[_candidate]);
+
+        registeredCandidatesData[_candidate] = CandidateRegistration(_name, _ipfsHash);
         registeredCandidates[_candidate] = true;
         
     }
 
-    function registeredAddressesArray() public view returns(address[] memory){
-        return registeredAddresses;
-    }
+   
 
  
     
