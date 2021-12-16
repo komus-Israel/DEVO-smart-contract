@@ -17,7 +17,7 @@ contract Vote {
 
 
     //  map to store candidates' registration state as true or false
-    mapping(address => bool) registeredCandidates;
+    mapping(address => bool)  registeredCandidates;
 
     //   a struct to save the candidates registration data
     struct CandidateRegistration {
@@ -26,7 +26,7 @@ contract Vote {
     }
 
     //  that saves the candidate data to their address
-    mapping(address => CandidateRegistration) registeredCandidatesData;
+    mapping(address => CandidateRegistration) public registeredCandidatesData;
 
 
 

@@ -163,17 +163,35 @@ contract('Vote', ([user1, user2, user3, user4, user5, user6, user7, candidate1, 
 
     describe("register candidate", ()=>{
 
-        it("registers a candidate successfully", async()=>{
-            await vote.registerCandidates(candidateAPC, 'Ajimobi', 'vdfbdfbdfb', {from: user1})
+        describe("success status", ()=>{
+            it("registers a candidate successfully", async()=>{
+                await vote.registerCandidates(candidateAPC, 'Ajimobi', 'vdfbdfbdfb', {from: user1})
+            })
+    
+            it("fails to register a candidate by an unauthorized address", async()=>{
+                await vote.registerCandidates(candidateAPC, 'Ajimobi', 'vdfbdfbdfb', {from: user2}).should.be.rejectedWith(EVM_REVERT)
+            })
+    
+            it("fails to register a candidate more than once", async()=>{
+                await vote.registerCandidates(candidateAPC, 'Ajimobi', 'vdfbdfbdfb', {from: user1})
+            })
         })
 
-        it("fails to register a candidate by an unauthorized address", async()=>{
-            await vote.registerCandidates(candidateAPC, 'Ajimobi', 'vdfbdfbdfb', {from: user2}).should.be.rejectedWith(EVM_REVERT)
+        describe("candidates data", ()=>{
+
+            beforeEach(async()=>{
+                await vote.registerCandidates(candidateAPC, 'Ajimobi', 'vdfbdfbdfb', {from: user1})
+            })
+
+            it("gets the candidates data", async()=>{
+                const candidateData = await vote.registeredCandidatesData(candidateAPC)
+                console.log(candidateData)
+            })
         })
 
-        it("fails to register a candidate more than once", async()=>{
-            await vote.registerCandidates(candidateAPC, 'Ajimobi', 'vdfbdfbdfb', {from: user1})
-        })
+        
+
+
     })
 
     describe("electorate's vote", ()=>{
