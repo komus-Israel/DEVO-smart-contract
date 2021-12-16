@@ -99,13 +99,17 @@ contract('Vote', ([user1, user2, user3, user4, user5, user6, user7, candidate1, 
     describe("deployment", ()=>{
         it("sets the address of the deployer", async()=>{
             const owner = await vote.owner()
-            const test = await vote.test()
-           console.log(owner)
+            console.log(owner)
            //console.log(test)
+        })
+        
+        it("displays the array of registered addresses", async()=>{
+            const addresses = await vote.registeredAddressesArray()
+            console.log(addresses)
         })
     })
 
-    describe("registration of electorates", ()=>{
+    /*describe("registration of electorates", ()=>{
 
         describe("success", ()=>{
 
@@ -285,6 +289,6 @@ contract('Vote', ([user1, user2, user3, user4, user5, user6, user7, candidate1, 
 
         })
 
-    })
+    })*/
 
 })

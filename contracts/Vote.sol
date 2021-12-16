@@ -12,9 +12,6 @@ contract Vote {
 
     address public owner;
     
-
-   
-
     //  a map to store the number of votes submitted to each candidates
     mapping(address => uint256) public candidates;
 
@@ -127,6 +124,10 @@ contract Vote {
         require(!registeredCandidates[_candidate]);
         registeredCandidates[_candidate] = true;
         
+    }
+
+    function registeredAddressesArray() public view returns(address[] memory){
+        return registeredAddresses;
     }
 
  
