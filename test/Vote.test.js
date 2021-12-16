@@ -103,13 +103,9 @@ contract('Vote', ([user1, user2, user3, user4, user5, user6, user7, candidate1, 
            //console.log(test)
         })
         
-        it("displays the array of registered addresses", async()=>{
-            const addresses = await vote.registeredAddressesArray()
-            console.log(addresses)
-        })
     })
 
-    /*describe("registration of electorates", ()=>{
+    describe("registration of electorates", ()=>{
 
         describe("success", ()=>{
 
@@ -168,15 +164,15 @@ contract('Vote', ([user1, user2, user3, user4, user5, user6, user7, candidate1, 
     describe("register candidate", ()=>{
 
         it("registers a candidate successfully", async()=>{
-            await vote.registerCandidates(candidateAPC, {from: user1})
+            await vote.registerCandidates(candidateAPC, 'Ajimobi', 'vdfbdfbdfb', {from: user1})
         })
 
-        it("fails to register a candidate", async()=>{
-            await vote.registerCandidates(candidateAPC, {from: user2}).should.be.rejectedWith(EVM_REVERT)
+        it("fails to register a candidate by an unauthorized address", async()=>{
+            await vote.registerCandidates(candidateAPC, 'Ajimobi', 'vdfbdfbdfb', {from: user2}).should.be.rejectedWith(EVM_REVERT)
         })
 
         it("fails to register a candidate more than once", async()=>{
-            await vote.registerCandidates(candidateAPC, {from: user1})
+            await vote.registerCandidates(candidateAPC, 'Ajimobi', 'vdfbdfbdfb', {from: user1})
         })
     })
 
@@ -191,8 +187,8 @@ contract('Vote', ([user1, user2, user3, user4, user5, user6, user7, candidate1, 
         beforeEach(async()=>{
 
             //register the party
-            await vote.registerCandidates(candidateAPC, {from: user1})
-            await vote.registerCandidates(candidatePDP, {from: user1})
+            await vote.registerCandidates(candidateAPC, 'Ajimobi', 'vdfbdfbdfb', {from: user1})
+            await vote.registerCandidates(candidatePDP, 'Akala', 'vdfbdfbdfb', {from: user1})
 
             electorateVote1 = await vote.voteCandidate(candidateAPC, { from: user1 })
             electorateVote3 = await vote.voteCandidate(candidateAPC, { from: user3 })
@@ -289,6 +285,6 @@ contract('Vote', ([user1, user2, user3, user4, user5, user6, user7, candidate1, 
 
         })
 
-    })*/
+    })
 
 })
