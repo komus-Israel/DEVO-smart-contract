@@ -69,7 +69,7 @@ contract Vote {
     //  2. Vote event
 
     event ElectorateRegistered(string _firstname, string _lastName, address _address, uint256 _timestamp);
-    event VoteCandidate(address _candidate, uint256 _timestamp);
+    event VoteCandidate(address _candidate, address _electorate, uint256 _timestamp);
     event CandidateRegistered(string _firstname, string _lastName)
 
 
@@ -125,7 +125,7 @@ contract Vote {
         validateVote[msg.sender] = true;
 
         //  emit event
-        emit VoteCandidate(_candidate, block.timestamp);
+        emit VoteCandidate(_candidate, msg.sender, block.timestamp);
 
         return true;
     }
