@@ -13,7 +13,7 @@ contract Vote {
     address public owner;
     
     //  a map to store the number of votes submitted to each candidates
-    mapping(address => uint256) public candidates;
+    mapping(address => uint256) public voteCount;
 
 
     //  map to store candidates' registration state as true or false
@@ -119,7 +119,7 @@ contract Vote {
         // validate that this candidate's address is not invalid and it is registered
         require(_candidate != address(0));
         require(registeredCandidates[_candidate]);
-        candidates[_candidate] += 1;
+        voteCount[_candidate] += 1;
 
         //  ensures that this address can't vote again
         validateVote[msg.sender] = true;

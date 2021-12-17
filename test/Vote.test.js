@@ -278,8 +278,8 @@ contract('Vote', ([user1, user2, user3, user4, user5, user6, user7, candidate1, 
             let pdpCandidate;
 
             beforeEach(async()=>{
-                apcCandidate = await vote.candidates(candidateAPC)
-                pdpCandidate = await vote.candidates(candidatePDP)
+                apcCandidate = await vote.voteCount(candidateAPC)
+                pdpCandidate = await vote.voteCount(candidatePDP)
             })
 
             it("returns result of APC candidate", async()=>{
