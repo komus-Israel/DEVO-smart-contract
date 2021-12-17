@@ -68,8 +68,9 @@ contract Vote {
     //  1. Registered event
     //  2. Vote event
 
-    event Registered(string _firstname, string _lastName, address _address, uint256 _timestamp);
+    event ElectorateRegistered(string _firstname, string _lastName, address _address, uint256 _timestamp);
     event VoteCandidate(address _candidate, uint256 _timestamp);
+    event CandidateRegistered(string _firstname, string _lastName)
 
 
      constructor () {
@@ -144,7 +145,7 @@ contract Vote {
         registeredCandidatesData[_candidate] = CandidateRegistration(_name, _ipfsHash, _candidate);
 
         registeredCandidatesArray.push(registeredCandidatesData[_candidate]);
-        
+
         registeredCandidates[_candidate] = true;
         
     }
