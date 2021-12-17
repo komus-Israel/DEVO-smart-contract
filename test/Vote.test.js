@@ -114,7 +114,7 @@ contract('Vote', ([user1, user2, user3, user4, user5, user6, user7, candidate1, 
                 // register user1 successfully
                     
                 //  test the name of the event for this function call
-                register.logs[0].event.should.be.equal('Registered')
+                register.logs[0].event.should.be.equal('ElectorateRegistered')
                 
     
                 //  test that the address in the event is the address we registered

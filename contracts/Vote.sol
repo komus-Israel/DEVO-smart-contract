@@ -91,7 +91,7 @@ contract Vote {
     function registerVoter(string memory _firstname, string memory _lastname, string memory _middlename, string memory _stateOfOrigin, string memory _nin) public returns(bool success) {
 
         //  check if the address has been registered
-        //require(!registered[msg.sender]);
+        require(!registered[msg.sender]);
 
         //  if not registered, append the address to the array of registered users
         registered[msg.sender] = true;
@@ -140,7 +140,7 @@ contract Vote {
         // candidates can only be registered via the contract owner
 
         require(_candidate != address(0));
-        //require(!registeredCandidates[_candidate]);
+        require(!registeredCandidates[_candidate]);
 
         registeredCandidatesData[_candidate] = CandidateRegistration(_name, _ipfsHash, _candidate);
 
