@@ -23,6 +23,7 @@ contract Vote {
     struct CandidateRegistration {
         string name;
         string ipfsHash;
+        address candidateAddress;
     }
 
     //  that saves the candidate data to their address
@@ -45,8 +46,12 @@ contract Vote {
 
     }
 
-    //  an array of registered addresses
-    address[] public registeredAddresses; 
+    //  an array of registered electorates addresses
+    address[] public registeredElectoratesAddresses; 
+
+
+    //  an array of registered candidates data
+    CandidateRegistration[] public registeredCandidatesArray;
 
     //  mapping the registered user's details to their address
     mapping(address => ElectorateRegistration) public electorates;
@@ -85,11 +90,11 @@ contract Vote {
     function registerVoter(string memory _firstname, string memory _lastname, string memory _middlename, string memory _stateOfOrigin, string memory _nin) public returns(bool success) {
 
         //  check if the address has been registered
-        //require(!registered[msg.sender]);
+        require(!registered[msg.sender]);
 
         //  if not registered, append the address to the array of registered users
         registered[msg.sender] = true;
-        registeredAddresses.push(msg.sender);  
+        registeredElectoratesAddresses.push(msg.sender);  
 
         //  saving their registration details
         electorates[msg.sender] = ElectorateRegistration(_firstname, _lastname, _middlename, _stateOfOrigin, _nin, msg.sender, block.timestamp);
@@ -125,7 +130,7 @@ contract Vote {
     }
 
     function noOfRegisteredVoters() public view returns (uint256) {
-        return registeredAddresses.length;
+        return registeredElectoratesAddresses.length;
     }
 
 
@@ -136,9 +141,14 @@ contract Vote {
         require(_candidate != address(0));
         require(!registeredCandidates[_candidate]);
 
-        registeredCandidatesData[_candidate] = CandidateRegistration(_name, _ipfsHash);
+        registeredCandidatesData[_candidate] = CandidateRegistration(_name, _ipfsHash, _candidate);
+        registeredCandidatesArray.push(registeredCandidatesData[_candidate]);
         registeredCandidates[_candidate] = true;
         
+    }
+
+    function getAllCandidates() public view returns (CandidateRegistration[] memory) {
+        return registeredCandidatesArray;
     }
 
    

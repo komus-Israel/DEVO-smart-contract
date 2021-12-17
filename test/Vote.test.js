@@ -187,6 +187,11 @@ contract('Vote', ([user1, user2, user3, user4, user5, user6, user7, candidate1, 
                 const candidateData = await vote.registeredCandidatesData(candidateAPC)
                 console.log(candidateData)
             })
+
+            it("gets the array of registered candidates", async()=>{
+                const arrayOfCandidates = await vote.getAllCandidates()
+                console.log(arrayOfCandidates)
+            })
         })
 
         
@@ -194,7 +199,7 @@ contract('Vote', ([user1, user2, user3, user4, user5, user6, user7, candidate1, 
 
     })
 
-    describe("electorate's vote", ()=>{
+    /*describe("electorate's vote", ()=>{
 
         let electorateVote1
         let electorateVote3
@@ -303,6 +308,6 @@ contract('Vote', ([user1, user2, user3, user4, user5, user6, user7, candidate1, 
 
         })
 
-    })
+    })*/
 
 })
