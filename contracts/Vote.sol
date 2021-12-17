@@ -142,7 +142,9 @@ contract Vote {
         require(!registeredCandidates[_candidate]);
 
         registeredCandidatesData[_candidate] = CandidateRegistration(_name, _ipfsHash, _candidate);
-        registeredCandidatesArray.push(CandidateRegistration(_name, _ipfsHash, _candidate));
+
+        registeredCandidatesArray.push(registeredCandidatesData[_candidate]);
+        
         registeredCandidates[_candidate] = true;
         
     }
