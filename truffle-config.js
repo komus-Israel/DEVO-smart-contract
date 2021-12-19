@@ -1,5 +1,6 @@
-require("dotenv").config()
-const HDWalletProvider = require("truffle-hdwallet-provider-privkey")
+require('dotenv').config()
+const HDWalletProvider = require('truffle-hdwallet-provider-privkey')
+
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY
 const API_URL = process.env.API_URL
