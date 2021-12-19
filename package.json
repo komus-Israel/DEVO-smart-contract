@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "chai": "^4.3.4",
-    "chai-as-promised": "^7.1.1"
+    "chai-as-promised": "^7.1.1",
+    "dot-env": "0.0.1"
   }
 }
